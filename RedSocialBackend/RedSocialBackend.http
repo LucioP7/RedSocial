@@ -1,0 +1,6 @@
+@RedSocialBackend_HostAddress = http://localhost:5140
+
+GET {{RedSocialBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
