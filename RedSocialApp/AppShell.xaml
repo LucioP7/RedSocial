@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="RedSocialApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:RedSocialApp"
+    xmlns:views="clr-namespace:RedSocialApp.Views"
+    xmlns:contentviews="clr-namespace:RedSocialApp.ContentViews"
+    xmlns:viewmodels="clr-namespace:RedSocialApp.ViewModels"
+    FlyoutBehavior="Disabled"
+    Title="RedSocialApp"
+    FlyoutBackgroundImage="photo.jpg"
+    FlyoutBackgroundImageAspect="AspectFill"
+    FlyoutHeaderBehavior="CollapseOnScroll">
+
+    <Shell.BindingContext>
+        <viewmodels:AppShellViewModel/>
+    </Shell.BindingContext>
+
+    <Shell.FlyoutHeader>
+        <contentviews:FlyoutHeader />
+    </Shell.FlyoutHeader>
+
+    <Shell.FlyoutFooter>
+        <contentviews:FlyoutFooter />
+    </Shell.FlyoutFooter>
+
+    <FlyoutItem Route="redSocialApp"
+                FlyoutDisplayOptions="AsMultipleItems"
+                x:Name="FlyoutItemsPrincipal">
+
+        <ShellContent
+          Title="Home"
+          ContentTemplate="{DataTemplate local:MainPage}"
+          Route="MainPage" />
+        <ShellContent
+            Title="Prueba"
+            ContentTemplate="{DataTemplate views:NewPage1}"
+            Route="NewPage" />
+        
+    </FlyoutItem>
+    
+    <MenuItem Text="Cerrar Sesion"
+            Command="{Binding LogoutCommand}"
+          IconImageSource="random.png"/>
+
+    <ShellContent
+     Title="Iniciar Sesion"
+     Icon="dog.png"
+     ContentTemplate="{DataTemplate views:IniciarSesionView}"
+     Route="Login"
+    IsVisible="{Binding IsUserLogout}"/>
+
+</Shell>

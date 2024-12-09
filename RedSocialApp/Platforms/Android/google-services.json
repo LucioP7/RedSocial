@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "207592701695",
+    "project_id": "rendir-a3948",
+    "storage_bucket": "rendir-a3948.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:207592701695:android:dd7eec54cf5a58b69556ca",
+        "android_client_info": {
+          "package_name": "com.companyname.redsocialapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAruK9pXTwsJZAUzlS0MLXXsmipb50C1fs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
