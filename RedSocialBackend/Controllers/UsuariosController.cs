@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RedSocialBackend.DataContext;
-using RedSocialBackend.Models;
+using RedSocialServices.Models;
 
 namespace RedSocialBackend.Controllers
 {

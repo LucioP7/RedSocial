@@ -1,5 +1,5 @@
-﻿namespace RedSocialBackend.Models;
-public partial class Like
+﻿namespace RedSocialServices.Models;
+public partial class DisLike
 {
     public int Id { get; set; }
     public int UsuarioId { get; set; }

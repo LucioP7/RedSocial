@@ -17,12 +17,12 @@ namespace RedSocialBackend.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("RedSocialBackend.Models.Comentario", b =>
+            modelBuilder.Entity("RedSocialServices.Models.Comentario", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -102,7 +102,7 @@ namespace RedSocialBackend.Migrations
                         });
                 });
 
-            modelBuilder.Entity("RedSocialBackend.Models.Configuracion", b =>
+            modelBuilder.Entity("RedSocialServices.Models.Configuracion", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -163,7 +163,105 @@ namespace RedSocialBackend.Migrations
                         });
                 });
 
-            modelBuilder.Entity("RedSocialBackend.Models.Like", b =>
+            modelBuilder.Entity("RedSocialServices.Models.DisLike", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Eliminado")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("PublicacionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PublicacionId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("DisLikes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Eliminado = false,
+                            PublicacionId = 1,
+                            UsuarioId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Eliminado = false,
+                            PublicacionId = 2,
+                            UsuarioId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Eliminado = false,
+                            PublicacionId = 3,
+                            UsuarioId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Eliminado = false,
+                            PublicacionId = 4,
+                            UsuarioId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Eliminado = false,
+                            PublicacionId = 5,
+                            UsuarioId = 5
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Eliminado = false,
+                            PublicacionId = 5,
+                            UsuarioId = 2
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Eliminado = false,
+                            PublicacionId = 2,
+                            UsuarioId = 3
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Eliminado = false,
+                            PublicacionId = 3,
+                            UsuarioId = 4
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Eliminado = false,
+                            PublicacionId = 1,
+                            UsuarioId = 5
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Eliminado = false,
+                            PublicacionId = 4,
+                            UsuarioId = 1
+                        });
+                });
+
+            modelBuilder.Entity("RedSocialServices.Models.Like", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -261,7 +359,7 @@ namespace RedSocialBackend.Migrations
                         });
                 });
 
-            modelBuilder.Entity("RedSocialBackend.Models.Pais", b =>
+            modelBuilder.Entity("RedSocialServices.Models.Pais", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -313,7 +411,7 @@ namespace RedSocialBackend.Migrations
                         });
                 });
 
-            modelBuilder.Entity("RedSocialBackend.Models.Publicacion", b =>
+            modelBuilder.Entity("RedSocialServices.Models.Publicacion", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -383,7 +481,7 @@ namespace RedSocialBackend.Migrations
                         });
                 });
 
-            modelBuilder.Entity("RedSocialBackend.Models.Usuario", b =>
+            modelBuilder.Entity("RedSocialServices.Models.Usuario", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -480,15 +578,15 @@ namespace RedSocialBackend.Migrations
                         });
                 });
 
-            modelBuilder.Entity("RedSocialBackend.Models.Comentario", b =>
+            modelBuilder.Entity("RedSocialServices.Models.Comentario", b =>
                 {
-                    b.HasOne("RedSocialBackend.Models.Publicacion", "Publicacion")
+                    b.HasOne("RedSocialServices.Models.Publicacion", "Publicacion")
                         .WithMany("Comentarios")
                         .HasForeignKey("PublicacionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RedSocialBackend.Models.Usuario", "Usuario")
+                    b.HasOne("RedSocialServices.Models.Usuario", "Usuario")
                         .WithMany()
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -499,15 +597,34 @@ namespace RedSocialBackend.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("RedSocialBackend.Models.Like", b =>
+            modelBuilder.Entity("RedSocialServices.Models.DisLike", b =>
                 {
-                    b.HasOne("RedSocialBackend.Models.Publicacion", "Publicacion")
+                    b.HasOne("RedSocialServices.Models.Publicacion", "Publicacion")
+                        .WithMany("DisLikes")
+                        .HasForeignKey("PublicacionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RedSocialServices.Models.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Publicacion");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("RedSocialServices.Models.Like", b =>
+                {
+                    b.HasOne("RedSocialServices.Models.Publicacion", "Publicacion")
                         .WithMany("Likes")
                         .HasForeignKey("PublicacionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RedSocialBackend.Models.Usuario", "Usuario")
+                    b.HasOne("RedSocialServices.Models.Usuario", "Usuario")
                         .WithMany()
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -518,9 +635,9 @@ namespace RedSocialBackend.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("RedSocialBackend.Models.Publicacion", b =>
+            modelBuilder.Entity("RedSocialServices.Models.Publicacion", b =>
                 {
-                    b.HasOne("RedSocialBackend.Models.Usuario", "Usuario")
+                    b.HasOne("RedSocialServices.Models.Usuario", "Usuario")
                         .WithMany()
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -529,9 +646,9 @@ namespace RedSocialBackend.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("RedSocialBackend.Models.Usuario", b =>
+            modelBuilder.Entity("RedSocialServices.Models.Usuario", b =>
                 {
-                    b.HasOne("RedSocialBackend.Models.Pais", "Pais")
+                    b.HasOne("RedSocialServices.Models.Pais", "Pais")
                         .WithMany()
                         .HasForeignKey("PaisId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -540,9 +657,11 @@ namespace RedSocialBackend.Migrations
                     b.Navigation("Pais");
                 });
 
-            modelBuilder.Entity("RedSocialBackend.Models.Publicacion", b =>
+            modelBuilder.Entity("RedSocialServices.Models.Publicacion", b =>
                 {
                     b.Navigation("Comentarios");
+
+                    b.Navigation("DisLikes");
 
                     b.Navigation("Likes");
                 });

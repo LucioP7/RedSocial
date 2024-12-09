@@ -65,6 +65,7 @@ namespace RedSocialBackend.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FechaNacimiento = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     PaisId = table.Column<int>(type: "int", nullable: false),
+                    Baneado = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Eliminado = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
@@ -135,6 +136,34 @@ namespace RedSocialBackend.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "DisLikes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false),
+                    PublicacionId = table.Column<int>(type: "int", nullable: false),
+                    Eliminado = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DisLikes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DisLikes_Publicaciones_PublicacionId",
+                        column: x => x.PublicacionId,
+                        principalTable: "Publicaciones",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DisLikes_Usuarios_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuarios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Likes",
                 columns: table => new
                 {
@@ -188,14 +217,14 @@ namespace RedSocialBackend.Migrations
 
             migrationBuilder.InsertData(
                 table: "Usuarios",
-                columns: new[] { "Id", "Eliminado", "FechaNacimiento", "NombreApodo", "NombreReal", "PaisId", "Telefono" },
+                columns: new[] { "Id", "Baneado", "Eliminado", "FechaNacimiento", "NombreApodo", "NombreReal", "PaisId", "Telefono" },
                 values: new object[,]
                 {
-                    { 1, false, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "juanperez", "Juan Perez", 1, "123456789" },
-                    { 2, false, new DateTime(1995, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "marialopez", "Maria Lopez", 2, "987654321" },
-                    { 3, false, new DateTime(1998, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "pedroramirez", "Pedro Ramirez", 3, "456789123" },
-                    { 4, false, new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "anagarcia", "Ana Garcia", 4, "789123456" },
-                    { 5, false, new DateTime(2005, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "carlosrodriguez", "Carlos Rodriguez", 5, "321654987" }
+                    { 1, false, false, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "juanperez", "Juan Perez", 1, "123456789" },
+                    { 2, false, false, new DateTime(1995, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "marialopez", "Maria Lopez", 2, "987654321" },
+                    { 3, false, false, new DateTime(1998, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "pedroramirez", "Pedro Ramirez", 3, "456789123" },
+                    { 4, false, false, new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "anagarcia", "Ana Garcia", 4, "789123456" },
+                    { 5, false, false, new DateTime(2005, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "carlosrodriguez", "Carlos Rodriguez", 5, "321654987" }
                 });
 
             migrationBuilder.InsertData(
@@ -223,6 +252,23 @@ namespace RedSocialBackend.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "DisLikes",
+                columns: new[] { "Id", "Eliminado", "PublicacionId", "UsuarioId" },
+                values: new object[,]
+                {
+                    { 1, false, 1, 1 },
+                    { 2, false, 2, 2 },
+                    { 3, false, 3, 3 },
+                    { 4, false, 4, 4 },
+                    { 5, false, 5, 5 },
+                    { 6, false, 5, 2 },
+                    { 7, false, 2, 3 },
+                    { 8, false, 3, 4 },
+                    { 9, false, 1, 5 },
+                    { 10, false, 4, 1 }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Likes",
                 columns: new[] { "Id", "Eliminado", "PublicacionId", "UsuarioId" },
                 values: new object[,]
@@ -247,6 +293,16 @@ namespace RedSocialBackend.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Comentarios_UsuarioId",
                 table: "Comentarios",
+                column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DisLikes_PublicacionId",
+                table: "DisLikes",
+                column: "PublicacionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DisLikes_UsuarioId",
+                table: "DisLikes",
                 column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
@@ -278,6 +334,9 @@ namespace RedSocialBackend.Migrations
 
             migrationBuilder.DropTable(
                 name: "Configuraciones");
+
+            migrationBuilder.DropTable(
+                name: "DisLikes");
 
             migrationBuilder.DropTable(
                 name: "Likes");

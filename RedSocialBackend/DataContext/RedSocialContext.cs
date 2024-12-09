@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 using Microsoft.Extensions.Configuration;
-using RedSocialBackend.Models;
+using RedSocialServices.Models;
 
 namespace RedSocialBackend.DataContext;
 
@@ -27,6 +27,7 @@ public partial class RedSocialContext : DbContext
     public virtual DbSet<Publicacion> Publicaciones { get; set; }
     public virtual DbSet<Comentario> Comentarios { get; set; }
     public virtual DbSet<Like> Likes { get; set; }
+    public virtual DbSet<DisLike> DisLikes { get; set; }
     public virtual DbSet<Pais> Paises { get; set; }
     public virtual DbSet<Configuracion> Configuraciones { get; set; }
 
@@ -210,7 +211,17 @@ public partial class RedSocialContext : DbContext
             new Configuracion { Id = 3, Nombre = "Configuracion 3", Valor = "Valor 3", Eliminado = false },
             new Configuracion { Id = 4, Nombre = "Configuracion 4", Valor = "Valor 4", Eliminado = false },
             new Configuracion { Id = 5, Nombre = "Configuracion 5", Valor = "Valor 5", Eliminado = false });
-
+        modelBuilder.Entity<DisLike>().HasData(
+            new { Id = 1, UsuarioId = 1, PublicacionId = 1, Eliminado = false },
+            new { Id = 2, UsuarioId = 2, PublicacionId = 2, Eliminado = false },
+            new { Id = 3, UsuarioId = 3, PublicacionId = 3, Eliminado = false },
+            new { Id = 4, UsuarioId = 4, PublicacionId = 4, Eliminado = false },
+            new { Id = 5, UsuarioId = 5, PublicacionId = 5, Eliminado = false },
+            new { Id = 6, UsuarioId = 2, PublicacionId = 5, Eliminado = false },
+            new { Id = 7, UsuarioId = 3, PublicacionId = 2, Eliminado = false },
+            new { Id = 8, UsuarioId = 4, PublicacionId = 3, Eliminado = false },
+            new { Id = 9, UsuarioId = 5, PublicacionId = 1, Eliminado = false },
+            new { Id = 10, UsuarioId = 1, PublicacionId = 4, Eliminado = false });
         #endregion
 
         #region definición de filtros de eliminación
@@ -222,8 +233,10 @@ public partial class RedSocialContext : DbContext
         modelBuilder.Entity<Publicacion>().HasQueryFilter(m => !m.Eliminado);
         modelBuilder.Entity<Comentario>().HasQueryFilter(m => !m.Eliminado);
         modelBuilder.Entity<Like>().HasQueryFilter(m => !m.Eliminado);
+        modelBuilder.Entity<DisLike>().HasQueryFilter(m => !m.Eliminado);
         modelBuilder.Entity<Pais>().HasQueryFilter(m => !m.Eliminado);
         modelBuilder.Entity<Configuracion>().HasQueryFilter(m => !m.Eliminado);
         #endregion
     }
+
 }

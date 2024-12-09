@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RedSocialBackend.Models;
+namespace RedSocialServices.Models;
 
 public partial class Configuracion
 {
